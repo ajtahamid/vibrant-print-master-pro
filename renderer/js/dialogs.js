@@ -141,7 +141,7 @@ export async function exportDialog(format, issues) {
   const desc = {
     pdf: 'Print-ready PDF for the press: CMYK vectors, images converted to CMYK with your ICC profile and embedded, text converted to outlines, output intent included.',
     ai: 'Illustrator-compatible (.ai, PDF-based). Opens in Adobe Illustrator with editable shapes, CMYK colours and embedded images. Text comes in as outlines.',
-    eps: 'EPS (PostScript Level 3) for printers that ask for EPS. CMYK vectors, embedded CMYK images. Opacity and soft shadows are not supported in EPS (transparent PNG edges become hard).',
+    eps: 'EPS (PostScript Level 3) for printers that ask for EPS. CMYK vectors, embedded CMYK images. Made for maximum compatibility (PostScript Level 2). EPS has no transparency: opacity is ignored and transparent PNG areas become white — use .AI or PDF for those.',
   }[format];
   const body = h('div', { style: { width: '460px', display: 'flex', flexDirection: 'column', gap: '10px' } },
     h('div', { class: 'muted', style: { fontSize: '12px' } }, desc),

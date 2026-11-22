@@ -305,7 +305,7 @@ export function writeEps(page, opts) {
   L.push(`%%BoundingBox: 0 0 ${Math.ceil(W)} ${Math.ceil(H)}`);
   L.push(`%%HiResBoundingBox: 0 0 ${r(W)} ${r(H)}`);
   L.push('%%DocumentProcessColors: Cyan Magenta Yellow Black');
-  L.push('%%LanguageLevel: 3');
+  L.push('%%LanguageLevel: 2');
   L.push('%%Pages: 1');
   L.push('%%EndComments');
   L.push('%%BeginProlog');
@@ -330,6 +330,59 @@ export function writeEps(page, opts) {
   return Buffer.from(L.join('\n') + '\n', 'latin1');
 }
 
+function colorAt(stops, t) {
+  const st = [...stops].sort((a, b) => a.o - b.o);
+  if (t <= st[0].o) return st[0].cmyk;
+  for (let i = 0; i < st.length - 1; i++) {
+    const a = st[i]; const b = st[i + 1];
+    if (t <= b.o) { const k = (t - a.o) / ((b.o - a.o) || 1); return a.cmyk.map((v, j) => v + (b.cmyk[j] - v) * k); }
+  }
+  return st[st.length - 1].cmyk;
+}
+
+// Gradients as vector strips — works in every PostScript reader (no Level 3 shfill)
+function epsGradient(L, g) {
+  const N = 96;
+  if (g.type === 'linear') {
+    const dx = g.x2 - g.x1; const dy = g.y2 - g.y1;
+    const len = Math.hypot(dx, dy) || 1;
+    const ux = dx / len; const uy = dy / len; const px = -uy; const py = ux;
+    const BIG = 1e4;
+    const quad = (t0, t1, c) => {
+      const ax = g.x1 + ux * t0; const ay = g.y1 + uy * t0; const bx = g.x1 + ux * t1; const by = g.y1 + uy * t1;
+      L.push(`${k4(c)} setcmykcolor newpath ${r(ax + px * BIG)} ${r(ay + py * BIG)} moveto ${r(bx + px * BIG)} ${r(by + py * BIG)} lineto ${r(bx - px * BIG)} ${r(by - py * BIG)} lineto ${r(ax - px * BIG)} ${r(ay - py * BIG)} lineto closepath fill`);
+    };
+    quad(-BIG, 0, colorAt(g.stops, 0));
+    for (let i = 0; i < N; i++) quad((len * i) / N - 0.05, (len * (i + 1)) / N + 0.05, colorAt(g.stops, (i + 0.5) / N));
+    quad(len, len + BIG, colorAt(g.stops, 1));
+  } else {
+    L.push(`${k4(colorAt(g.stops, 1))} setcmykcolor newpath -10000 -10000 moveto 10000 -10000 lineto 10000 10000 lineto -10000 10000 lineto closepath fill`);
+    for (let i = N; i >= 1; i--) {
+      const rr = (g.r * i) / N;
+      L.push(`${k4(colorAt(g.stops, (i - 0.5) / N))} setcmykcolor newpath ${r(g.cx + rr)} ${r(g.cy)} moveto ${r(g.cx)} ${r(g.cy)} ${r(rr)} 0 360 arc closepath fill`);
+    }
+  }
+}
+
+function runLength(buf) {
+  const out = []; let i = 0; const n = buf.length;
+  while (i < n) {
+    let j = i + 1;
+    while (j < n && j - i < 128 && buf[j] === buf[i]) j++;
+    if (j - i >= 3) { out.push(257 - (j - i), buf[i]); i = j; continue; }
+    j = i; const start = i;
+    while (j < n && j - start < 128) {
+      if (j + 2 < n && buf[j] === buf[j + 1] && buf[j] === buf[j + 2]) break;
+      j++;
+    }
+    out.push(j - start - 1);
+    for (let k = start; k < j; k++) out.push(buf[k]);
+    i = j;
+  }
+  out.push(128);
+  return Buffer.from(out);
+}
+
 function epsPath(L, it) {
   const fill = it.fill; const st = it.stroke && it.stroke.width > 0 ? it.stroke : null;
   if (!fill && !st) return;
@@ -341,7 +394,7 @@ function epsPath(L, it) {
     else {
       L.push('gsave'); L.push(geo); L.push(ev ? 'eoclip' : 'clip'); L.push('newpath');
       if (fill.matrix) L.push('[' + fill.matrix.map(r).join(' ') + '] concat');
-      L.push(shadingDict(fill) + ' shfill');
+      epsGradient(L, fill);
       L.push('grestore');
     }
   };
@@ -358,25 +411,13 @@ function epsPath(L, it) {
 
 function epsImage(L, it) {
   const n = it.pw * it.ph;
-  const cm = it.cmyk;
-  const im = `/ImageMatrix [${it.pw} 0 0 ${it.ph} 0 0]`;
+  const cm = Buffer.from(it.cmyk.buffer, it.cmyk.byteOffset, n * 4);
   L.push('gsave');
   L.push('[' + it.matrix.map(r).join(' ') + '] concat');
   L.push(`${r(-it.w / 2)} ${r(-it.h / 2)} translate ${r(it.w)} ${r(it.h)} scale`);
   L.push('/DeviceCMYK setcolorspace');
-  if (it.alpha) {
-    // masked image (ImageType 3, mask sample interleaved before each CMYK sample)
-    const buf = Buffer.alloc(n * 5);
-    for (let i = 0; i < n; i++) {
-      buf[i * 5] = it.alpha[i] >= 128 ? 255 : 0;
-      buf[i * 5 + 1] = cm[i * 4]; buf[i * 5 + 2] = cm[i * 4 + 1]; buf[i * 5 + 3] = cm[i * 4 + 2]; buf[i * 5 + 4] = cm[i * 4 + 3];
-    }
-    L.push(`<< /ImageType 3 /InterleaveType 1 /DataDict << /ImageType 1 /Width ${it.pw} /Height ${it.ph} /BitsPerComponent 8 /Decode [0 1 0 1 0 1 0 1] ${im} /Interpolate true /DataSource currentfile /ASCII85Decode filter /FlateDecode filter >> /MaskDict << /ImageType 1 /Width ${it.pw} /Height ${it.ph} /BitsPerComponent 8 /Decode [1 0] ${im} >> >> image`);
-    L.push(ascii85(zlib.deflateSync(buf)));
-  } else {
-    L.push(`<< /ImageType 1 /Width ${it.pw} /Height ${it.ph} /BitsPerComponent 8 /Decode [0 1 0 1 0 1 0 1] ${im} /Interpolate true /DataSource currentfile /ASCII85Decode filter /FlateDecode filter >> image`);
-    L.push(ascii85(zlib.deflateSync(Buffer.from(cm.buffer, cm.byteOffset, n * 4))));
-  }
+  L.push(`<< /ImageType 1 /Width ${it.pw} /Height ${it.ph} /BitsPerComponent 8 /Decode [0 1 0 1 0 1 0 1] /ImageMatrix [${it.pw} 0 0 ${it.ph} 0 0] /DataSource currentfile /ASCII85Decode filter /RunLengthDecode filter >> image`);
+  L.push(ascii85(runLength(cm)));
   L.push('grestore');
 }
 

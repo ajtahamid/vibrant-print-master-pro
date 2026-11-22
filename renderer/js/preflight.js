@@ -28,7 +28,7 @@ export async function runPreflight(format) {
         const ppi = Math.min((el.naturalWidth || o.width) / (sx / 72), (el.naturalHeight || o.height) / (sy / 72));
         if (ppi < 150) add('error', `Image ${label(o)} is only ${Math.round(ppi)} ppi — it will print blurry (need 300 ppi).`, o);
         else if (ppi < 250) add('warn', `Image ${label(o)} is ${Math.round(ppi)} ppi — 300 ppi is recommended for print.`, o);
-        if (format === 'eps') add('info', `EPS keeps only hard-edged transparency: soft edges of ${label(o)} are cut at 50%. Use PDF or AI for smooth transparency.`, o);
+        if (format === 'eps') add('info', `EPS has no transparency: transparent areas of ${label(o)} become white. Use AI or PDF to keep transparency.`, o);
       }
       if (op < 1 && format === 'eps') add('warn', `${label(o)} uses ${Math.round(op * 100)}% opacity — EPS cannot keep transparency, it will print solid. Use PDF or AI.`, o);
       for (const c of paints(o)) {
