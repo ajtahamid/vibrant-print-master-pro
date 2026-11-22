@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vibrant Print Master Pro</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' vpm: data: blob:; img-src 'self' vpm: data: blob:; style-src 'self' 'unsafe-inline' vpm:; font-src 'self' vpm: data: blob: local:; script-src 'self' vpm: 'wasm-unsafe-eval'">
+<link rel="stylesheet" href="style.css">
+<script src="../node_modules/fabric/dist/index.min.js"></script>
+<script src="../node_modules/paper/dist/paper-core.min.js"></script>
+</head>
+<body class="platform-unknown">
+<div id="app">
+  <header id="topbar">
+    <div class="brand"><img src="../assets/logo.svg" alt=""><span>Print Master <b>Pro</b></span></div>
+    <div id="docname">Untitled</div>
+    <div id="pagetabs"></div>
+    <div class="spacer"></div>
+    <div class="topactions">
+      <button data-cmd="preflight" title="Preflight check (⇧⌘F)">Preflight</button>
+      <button data-cmd="export-pdf" class="primary" title="Export print-ready PDF">Export PDF</button>
+      <button data-cmd="export-ai" title="Save as Illustrator file">.AI</button>
+      <button data-cmd="export-eps" title="Save as EPS">.EPS</button>
+    </div>
+  </header>
+  <div id="main">
+    <aside id="toolbar">
+      <button class="tool" data-tool="select" title="Selection (V)"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.6L10 19z"/></svg></button>
+      <button class="tool" data-tool="direct" title="Direct Selection — edit anchor points (A)"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.6L10 19z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+      <button class="tool" data-tool="pen" title="Pen (P)"><svg viewBox="0 0 24 24"><path d="M12 2l5 9-3 9h-4l-3-9z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.6"/></svg></button>
+      <button class="tool" data-tool="text" title="Type (T) — click for point text, drag for area text"><svg viewBox="0 0 24 24"><path d="M5 5h14v3h-1.6l-.6-1.4H13V18l2 .5V20H9v-1.5l2-.5V6.6H7.2L6.6 8H5z"/></svg></button>
+      <div class="sep"></div>
+      <button class="tool" data-tool="rect" title="Rectangle (M)"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+      <button class="tool" data-tool="roundrect" title="Rounded Rectangle"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+      <button class="tool" data-tool="ellipse" title="Ellipse (L)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+      <button class="tool" data-tool="polygon" title="Polygon"><svg viewBox="0 0 24 24"><path d="M12 3l8.5 6.2-3.2 10H6.7L3.5 9.2z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+      <button class="tool" data-tool="star" title="Star"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>
+      <button class="tool" data-tool="line" title="Line Segment (\)"><svg viewBox="0 0 24 24"><path d="M5 19L19 5" stroke="currentColor" stroke-width="2"/></svg></button>
+      <div class="sep"></div>
+      <button class="tool" data-tool="eyedropper" title="Eyedropper (I) — copy colours from an object"><svg viewBox="0 0 24 24"><path d="M17.5 3.5a2.1 2.1 0 013 3l-2.3 2.3 1 1-1.4 1.4-1-1-7.6 7.6H6.8v-2.4l7.6-7.6-1-1 1.4-1.4 1 1z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20l2.8-2.8"/></svg></button>
+      <button class="tool" data-tool="hand" title="Hand (H / hold Space)"><svg viewBox="0 0 24 24"><path d="M8 11V5.5a1.5 1.5 0 013 0V11m0-6.5a1.5 1.5 0 013 0V11m0-5a1.5 1.5 0 013 0v7c0 4-2.5 7-6 7-3 0-4.5-1.6-6-4l-2-3.5a1.4 1.4 0 012.3-1.6L8 13" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+      <button class="tool" data-tool="zoom" title="Zoom (Z) — Alt-click to zoom out"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15 15l5 5M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="1.8"/></svg></button>
+      <div class="sep"></div>
+      <div id="fillstroke" title="Fill & Stroke (X to toggle, ⇧X to swap, D default)">
+        <div id="fs-stroke" class="fs-chip stroke"><span></span></div>
+        <div id="fs-fill" class="fs-chip fill"><span></span></div>
+        <button id="fs-swap" title="Swap fill and stroke (⇧X)">⇄</button>
+        <button id="fs-default" title="Default fill and stroke (D)">◪</button>
+      </div>
+      <div class="fs-modes">
+        <button id="fs-none" title="None (/)">⊘</button>
+      </div>
+    </aside>
+    <section id="stage">
+      <canvas id="ruler-corner" class="ruler"></canvas>
+      <canvas id="ruler-h" class="ruler"></canvas>
+      <canvas id="ruler-v" class="ruler"></canvas>
+      <div id="canvas-wrap"><canvas id="c"></canvas></div>
+      <div id="hint"></div>
+    </section>
+    <aside id="panels"></aside>
+  </div>
+  <footer id="statusbar">
+    <span id="st-zoom">100%</span>
+    <span id="st-pos">X 0 Y 0</span>
+    <span id="st-sel">No selection</span>
+    <span class="spacer"></span>
+    <span id="st-profile" title="CMYK colour profile — change in Preferences">CMYK</span>
+    <span id="st-credit">Created by Tahamid</span>
+  </footer>
+</div>
+<div id="modal-root"></div>
+<div id="toast"></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

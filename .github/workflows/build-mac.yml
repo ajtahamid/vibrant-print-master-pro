@@ -1,0 +1,40 @@
+name: Build Mac app (.dmg)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-14   # Apple Silicon (M-series)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Package app
+        run: node build/pack.mjs
+      - name: Sign (ad-hoc) and make DMG
+        run: |
+          APP="dist/Vibrant Print Master Pro-darwin-arm64/Vibrant Print Master Pro.app"
+          rm -rf "$APP/Contents/Resources/app/node_modules/@img"
+          codesign --force --deep --sign - "$APP"
+          codesign --verify --deep --strict "$APP"
+          mkdir -p dmg && cp -R "$APP" dmg/ && ln -s /Applications dmg/Applications
+          hdiutil create -volname "Vibrant Print Master Pro" -srcfolder dmg -ov -format UDZO "Vibrant-Print-Master-Pro.dmg"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Vibrant-Print-Master-Pro-dmg
+          path: Vibrant-Print-Master-Pro.dmg
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Vibrant Print Master Pro v1.0.${{ github.run_number }}
+          body: "Download Vibrant-Print-Master-Pro.dmg, open it and drag the app to Applications. First launch: System Settings → Privacy & Security → Open Anyway. Created by Tahamid."
+          files: Vibrant-Print-Master-Pro.dmg
