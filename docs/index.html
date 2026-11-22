@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vibrant Print Master Pro — Download for Mac</title>
+<meta name="description" content="CMYK vector design app for print. Save as AI, EPS and print-ready PDF. Full Bangla text support. Created by Tahamid.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1012; --bg2:#16171a; --card:#1c1d21; --line:#2a2c31; --text:#f2f2f4; --dim:#a2a5ad; --faint:#6e717a;
+    --orange:#ff7a2f; --pink:#e8336b; --cyan:#00b7eb; --mag:#ec008c; --yel:#ffe500;
+    --grad:linear-gradient(135deg,#ff8a3d 0%,#e8336b 100%);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Manrope,"Hind Siliguri",system-ui,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .bn{font-family:"Hind Siliguri",Manrope,sans-serif}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:20;background:rgba(15,16,18,.78);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+  nav .wrap{display:flex;align-items:center;gap:12px;height:62px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.2px;text-decoration:none}
+  .brand svg{width:30px;height:30px}
+  .brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  nav .sp{flex:1}
+  nav a.lnk{color:var(--dim);text-decoration:none;font-weight:600;font-size:14px;padding:8px 12px;border-radius:8px}
+  nav a.lnk:hover{color:var(--text);background:rgba(255,255,255,.05)}
+  .lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-left:6px}
+  .lang button{background:none;border:0;color:var(--dim);font:600 12px Manrope,sans-serif;padding:6px 12px;cursor:pointer}
+  .lang button.on{background:#2a2c31;color:var(--text)}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:84px 0 40px}
+  .hero::before{content:"";position:absolute;inset:-30% -10% auto;height:720px;background:
+    radial-gradient(420px 320px at 22% 40%,rgba(0,183,235,.18),transparent 70%),
+    radial-gradient(460px 340px at 52% 22%,rgba(236,0,140,.20),transparent 70%),
+    radial-gradient(420px 320px at 78% 46%,rgba(255,229,0,.12),transparent 70%);pointer-events:none}
+  .hero .wrap{position:relative;text-align:center}
+  .appicon{width:124px;height:124px;filter:drop-shadow(0 18px 30px rgba(232,51,107,.35))}
+  .eyebrow{display:inline-flex;gap:8px;align-items:center;margin:22px 0 10px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;color:var(--dim);font-size:13px;font-weight:600;background:rgba(255,255,255,.03)}
+  .eyebrow i{width:8px;height:8px;border-radius:50%;background:#3ccf8e;box-shadow:0 0 0 4px rgba(60,207,142,.15)}
+  h1{font-size:clamp(40px,6vw,68px);line-height:1.04;letter-spacing:-2px;margin:6px 0 16px;font-weight:800}
+  h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:clamp(17px,2vw,20px);color:var(--dim);max-width:640px;margin:0 auto 34px}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-weight:700;border-radius:14px;padding:16px 26px;font-size:17px;transition:transform .15s ease, box-shadow .15s ease, background .15s}
+  .btn svg{width:22px;height:22px}
+  .btn.primary{background:var(--grad);color:#fff;box-shadow:0 12px 32px rgba(232,51,107,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(232,51,107,.45),inset 0 1px 0 rgba(255,255,255,.25)}
+  .btn.primary small{display:block;font-weight:600;font-size:12px;opacity:.85;margin-top:1px}
+  .btn.ghost{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text)}
+  .btn.ghost:hover{background:rgba(255,255,255,.09)}
+  .meta{margin-top:18px;color:var(--faint);font-size:13px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+  .meta span{display:inline-flex;gap:6px;align-items:center}
+
+  /* app mock */
+  .mock{margin:58px auto 0;max-width:980px;border-radius:16px;background:#1b1c1f;border:1px solid #2c2e33;box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.02);overflow:hidden;text-align:left}
+  .mbar{height:40px;display:flex;align-items:center;gap:8px;padding:0 14px;background:#1f2023;border-bottom:1px solid #2c2e33}
+  .dots{display:flex;gap:7px;margin-right:12px}.dots i{width:12px;height:12px;border-radius:50%;background:#ff5f57}.dots i:nth-child(2){background:#febc2e}.dots i:nth-child(3){background:#28c840}
+  .mbar .t{font-size:12px;font-weight:700}.mbar .t b{color:var(--orange)}
+  .mbar .tab{font-size:11px;color:var(--dim);background:#2a2c30;border-radius:5px;padding:3px 9px;margin-left:10px}
+  .mbar .sp{flex:1}
+  .mbar .ex{font-size:11px;font-weight:700;background:var(--orange);border-radius:6px;padding:5px 10px}
+  .mbar .ex2{font-size:11px;font-weight:700;background:#2f3237;border-radius:6px;padding:5px 9px;color:#ddd}
+  .mbody{display:grid;grid-template-columns:44px 1fr 210px;height:440px}
+  .tools{background:#1f2023;border-right:1px solid #2c2e33;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 0}
+  .tools i{width:26px;height:26px;border-radius:6px;background:#2a2c30}
+  .tools i.on{background:var(--orange)}
+  .board{background:#2b2d31;display:grid;place-items:center;position:relative}
+  .card{width:72%;aspect-ratio:3.5/2;background:linear-gradient(120deg,#f0782a,#de2f68);border-radius:3px;box-shadow:0 10px 30px rgba(0,0,0,.45);position:relative;outline:1px solid #ff3b30;outline-offset:8px;padding:7% 8%;display:flex;flex-direction:column;justify-content:center;gap:4%}
+  .card .safe{position:absolute;inset:6%;border:1px dashed rgba(0,162,255,.9)}
+  .card .bn1{font-family:"Hind Siliguri";font-weight:700;color:#141414;font-size:clamp(16px,3.1vw,32px);line-height:1.1}
+  .card .en1{color:#fff;font-weight:700;font-size:clamp(9px,1.3vw,14px)}
+  .card .en2{color:rgba(255,255,255,.85);font-size:clamp(8px,1.1vw,12px)}
+  .card .dot{position:absolute;right:9%;top:16%;width:22%;aspect-ratio:1;border-radius:50%;background:#00a9e0;border:3px solid #222}
+  .card .wave{position:absolute;right:6%;bottom:12%;width:34%;height:16%;background:linear-gradient(90deg,#7bc043,#ffe500 55%,#7bc043);clip-path:polygon(0 60%,30% 20%,60% 70%,92% 0,100% 100%,0 100%)}
+  .sel{position:absolute;border:1px solid #3d8bff}
+  .side{background:#1f2023;border-left:1px solid #2c2e33;padding:12px;display:flex;flex-direction:column;gap:10px;font-size:10px;color:#9a9ea6}
+  .side h6{margin:0;font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:#7f838b}
+  .sl{display:grid;grid-template-columns:10px 1fr 26px;gap:6px;align-items:center}
+  .sl b{color:#ddd}
+  .sl .bar{height:7px;border-radius:4px;border:1px solid #000}
+  .sl em{font-style:normal;background:#151619;border:1px solid #2c2e33;border-radius:4px;text-align:right;padding:1px 4px;color:#ddd}
+  .sw{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.sw i{aspect-ratio:1;border:1px solid #000;border-radius:2px}
+  .ly{display:flex;flex-direction:column;gap:3px}.ly div{background:#151619;border-radius:4px;padding:4px 6px;color:#cfd1d6}.ly div.on{background:#23395f}
+
+  section{padding:96px 0}
+  .h2{font-size:clamp(30px,4vw,44px);letter-spacing:-1.2px;line-height:1.1;margin:0 0 12px;font-weight:800;text-align:center}
+  .sub{color:var(--dim);text-align:center;max-width:620px;margin:0 auto 52px;font-size:17px}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;position:relative;overflow:hidden}
+  .num{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:800;background:var(--grad);color:#fff;margin-bottom:18px}
+  .step h3{margin:0 0 8px;font-size:19px;letter-spacing:-.3px}
+  .step p{margin:0;color:var(--dim);font-size:15px}
+  .step .bnp{margin-top:10px;color:var(--faint);font-size:14px}
+  .ill{height:120px;margin:-6px -6px 18px;border-radius:12px;background:#141518;border:1px solid #24262a;display:grid;place-items:center;position:relative;overflow:hidden}
+  .file{display:flex;align-items:center;gap:10px;background:#1f2023;border:1px solid #2f3136;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600}
+  .file .disk{width:30px;height:34px;border-radius:5px;background:linear-gradient(#e9e9ee,#b9bac2);position:relative}
+  .file .disk::after{content:"";position:absolute;left:8px;right:8px;bottom:6px;height:10px;border-radius:2px;background:#8d8f97}
+  .prog{height:4px;width:110px;border-radius:2px;background:#2c2e33;overflow:hidden;margin-top:6px}.prog i{display:block;height:100%;width:72%;background:var(--grad)}
+  .drag{display:flex;align-items:center;gap:22px}
+  .drag svg.ic{width:56px;height:56px}
+  .folder{width:60px;height:48px;border-radius:6px;background:linear-gradient(#5aa9f8,#2f7fe0);position:relative}
+  .folder::before{content:"";position:absolute;left:0;top:-7px;width:26px;height:10px;border-radius:4px 4px 0 0;background:#5aa9f8}
+  .folder span{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-weight:800;font-size:20px}
+  .arrow{color:var(--orange);font-size:26px;font-weight:800}
+  .sys{width:86%;background:#1f2023;border:1px solid #2f3136;border-radius:10px;padding:10px 12px;font-size:11.5px;color:var(--dim)}
+  .sys .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .sys .oa{background:#3d8bff;color:#fff;border-radius:6px;padding:4px 9px;font-weight:700;font-size:11px;white-space:nowrap;box-shadow:0 0 0 3px rgba(61,139,255,.25)}
+
+  /* features */
+  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
+  .feat .fi{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;font-size:20px;font-weight:800}
+  .feat h4{margin:0 0 6px;font-size:17px;letter-spacing:-.2px}
+  .feat p{margin:0;color:var(--dim);font-size:14.5px}
+  .c1{background:rgba(0,183,235,.14);color:#4fd2ff}.c2{background:rgba(236,0,140,.14);color:#ff5ab9}.c3{background:rgba(255,229,0,.12);color:#ffe74d}
+  .c4{background:rgba(255,122,47,.14);color:#ff9a5c}.c5{background:rgba(60,207,142,.14);color:#5fe0a8}.c6{background:rgba(160,120,255,.15);color:#b79cff}
+  .formats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+  .fmt{border:1px solid var(--line);background:#141518;border-radius:10px;padding:8px 14px;font-weight:700;font-size:13px;color:var(--dim)}
+  .fmt b{color:var(--text)}
+
+  /* faq */
+  .faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 20px}
+  summary{cursor:pointer;list-style:none;font-weight:700;padding:16px 0;display:flex;justify-content:space-between;gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--faint);font-size:22px;line-height:1}
+  details[open] summary::after{content:"–"}
+  details p, details ol{color:var(--dim);margin:0 0 18px;font-size:15px}
+  details ol{padding-left:20px}
+  code{background:#141518;border:1px solid #2a2c31;border-radius:6px;padding:1px 6px;font-size:13px;color:#e6e7ea}
+
+  .final{text-align:center;padding:90px 24px;border-radius:28px;margin:0 24px;background:
+    radial-gradient(500px 260px at 30% 0%,rgba(255,138,61,.25),transparent 70%),radial-gradient(520px 280px at 75% 100%,rgba(232,51,107,.25),transparent 70%),#15161a;border:1px solid var(--line)}
+  footer{padding:46px 0;color:var(--faint);font-size:14px}
+  footer .wrap{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  footer b{color:var(--text)}
+  footer .by{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+
+  [data-lang="bn"] .en-only{display:none} [data-lang="en"] .bn-only{display:none}
+
+  @media (max-width:860px){
+    .steps,.feats{grid-template-columns:1fr}
+    .mbody{grid-template-columns:36px 1fr;height:300px}.side{display:none}
+    nav a.lnk{display:none}
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="lg-s">
+  <defs>
+    <linearGradient id="gs" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a3d"/><stop offset="1" stop-color="#e8336b"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="url(#gs)"/>
+  <circle cx="92" cy="92" r="30" fill="#00b7eb" opacity=".95"/>
+  <circle cx="164" cy="92" r="30" fill="#ec008c" opacity=".95"/>
+  <circle cx="128" cy="150" r="30" fill="#ffe500" opacity=".95"/>
+  <path d="M128 70 L170 150 L150 214 L106 214 L86 150 Z" fill="#141414"/>
+  <path d="M128 92 L128 160" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="128" cy="168" r="11" fill="#fff"/>
+</svg>
+<span>Vibrant Print Master <b>Pro</b></span></a>
+    <div class="sp"></div>
+    <a class="lnk" href="#install"><span class="en-only">Install</span><span class="bn-only bn">ইনস্টল</span></a>
+    <a class="lnk" href="#features"><span class="en-only">Features</span><span class="bn-only bn">ফিচার</span></a>
+    <a class="lnk" href="#faq">FAQ</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button data-l="en" class="on">EN</button><button data-l="bn" class="bn">বাংলা</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="appicon">
+  <defs>
+    <linearGradient id="gb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a3d"/><stop offset="1" stop-color="#e8336b"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="url(#gb)"/>
+  <circle cx="92" cy="92" r="30" fill="#00b7eb" opacity=".95"/>
+  <circle cx="164" cy="92" r="30" fill="#ec008c" opacity=".95"/>
+  <circle cx="128" cy="150" r="30" fill="#ffe500" opacity=".95"/>
+  <path d="M128 70 L170 150 L150 214 L106 214 L86 150 Z" fill="#141414"/>
+  <path d="M128 92 L128 160" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="128" cy="168" r="11" fill="#fff"/>
+</svg>
+
+    <div><span class="eyebrow"><i></i><span class="en-only">Version 1.0 · for Mac with Apple Silicon</span><span class="bn-only bn">ভার্সন ১.০ · Apple Silicon Mac-এর জন্য</span></span></div>
+    <h1 class="en-only">Design for print.<br><span>In true CMYK.</span></h1>
+    <h1 class="bn-only bn" style="letter-spacing:-.5px">প্রিন্টের জন্য ডিজাইন,<br><span>একদম আসল CMYK-এ।</span></h1>
+    <p class="lead en-only">A fast, focused vector design app for print work — visiting cards, flyers, posters and banners. Save as AI, EPS or a print-ready PDF, with full Bangla text support.</p>
+    <p class="lead bn-only bn">ভিজিটিং কার্ড, ফ্লায়ার, পোস্টার, ব্যানার — প্রিন্টের কাজের জন্য দ্রুত ও সহজ ভেক্টর ডিজাইন অ্যাপ। AI, EPS আর প্রিন্ট-রেডি PDF-এ সেভ করুন, বাংলা টেক্সট পুরোপুরি সাপোর্টেড।</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/ajtahamid/vibrant-print-master-pro/releases/latest/download/Vibrant-Print-Master-Pro.dmg">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a1 1 0 011 1v9.6l3.3-3.3a1 1 0 111.4 1.4l-5 5a1 1 0 01-1.4 0l-5-5a1 1 0 111.4-1.4L11 13.6V4a1 1 0 011-1zM5 19h14a1 1 0 110 2H5a1 1 0 110-2z"/></svg>
+        <span><span class="en-only">Download for Mac</span><span class="bn-only bn">Mac-এর জন্য ডাউনলোড</span><small>Free · .dmg · ~180 MB</small></span>
+      </a>
+      <a class="btn ghost" href="#install"><span class="en-only">How to install</span><span class="bn-only bn">কীভাবে ইনস্টল করবেন</span></a>
+    </div>
+    <div class="meta">
+      <span>✓ Apple Silicon M1 – M4</span><span>✓ macOS 12 or later</span><span>✓ <span class="en-only">Works offline</span><span class="bn-only bn">ইন্টারনেট ছাড়াই চলে</span></span>
+    </div>
+
+    <div class="mock" aria-label="App preview">
+      <div class="mbar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="t">Print Master <b>Pro</b></div><div class="tab">Visiting Card</div>
+        <div class="sp"></div><div class="ex2">Preflight</div><div class="ex">Export PDF</div><div class="ex2">.AI</div><div class="ex2">.EPS</div>
+      </div>
+      <div class="mbody">
+        <div class="tools"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="board">
+          <div class="card">
+            <div class="safe"></div>
+            <div class="bn1">ভাইব্রেন্ট প্রিন্ট</div>
+            <div class="en1">Senior Creative Lead</div>
+            <div class="en2">Dhaka, Bangladesh</div>
+            <div class="dot"></div><div class="wave"></div>
+          </div>
+        </div>
+        <div class="side">
+          <h6>Colour (CMYK)</h6>
+          <div class="sl"><b>C</b><div class="bar" style="background:linear-gradient(90deg,#fff,#00a9e0)"></div><em>0</em></div>
+          <div class="sl"><b>M</b><div class="bar" style="background:linear-gradient(90deg,#fff,#ec008c)"></div><em>60</em></div>
+          <div class="sl"><b>Y</b><div class="bar" style="background:linear-gradient(90deg,#fff,#ffe500)"></div><em>100</em></div>
+          <div class="sl"><b>K</b><div class="bar" style="background:linear-gradient(90deg,#fff,#111)"></div><em>0</em></div>
+          <h6>Swatches</h6>
+          <div class="sw"><i style="background:#fff"></i><i style="background:#1a1a1a"></i><i style="background:#00a9e0"></i><i style="background:#ec008c"></i><i style="background:#ffe500"></i><i style="background:#e5352b"></i><i style="background:#f39200"></i><i style="background:#00a651"></i><i style="background:#2e3192"></i><i style="background:#662d91"></i><i style="background:#8b4513"></i><i style="background:#9e1f63"></i><i style="background:#555"></i><i style="background:#999"></i></div>
+          <h6>Layers</h6>
+          <div class="ly"><div>T ভাইব্রেন্ট প্রিন্ট</div><div class="on">◯ Ellipse</div><div>✎ Wave</div><div>▭ Background</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="install">
+  <div class="wrap">
+    <h2 class="h2 en-only">Install in three steps</h2>
+    <h2 class="h2 bn-only bn">তিন ধাপে ইনস্টল</h2>
+    <p class="sub en-only">No Terminal needed. The one-time security step at the end is normal for apps that aren't sold on the App Store.</p>
+    <p class="sub bn-only bn">Terminal লাগবে না। শেষের নিরাপত্তা ধাপটা শুধু প্রথমবার লাগে — App Store-এর বাইরের অ্যাপে এটা স্বাভাবিক।</p>
+    <div class="steps">
+      <div class="step">
+        <div class="ill"><div><div class="file"><div class="disk"></div><div>Vibrant-Print-Master-Pro.dmg<div class="prog"><i></i></div></div></div></div></div>
+        <div class="num">1</div>
+        <h3 class="en-only">Download</h3><h3 class="bn-only bn">ডাউনলোড</h3>
+        <p class="en-only">Click <b>Download for Mac</b>. When it finishes, double-click <b>Vibrant-Print-Master-Pro.dmg</b> in Downloads.</p>
+        <p class="bn-only bn"><b>Download for Mac</b> বাটনে ক্লিক করুন। ডাউনলোড শেষ হলে Downloads ফোল্ডারে <b>Vibrant-Print-Master-Pro.dmg</b>-তে ডাবল-ক্লিক করুন।</p>
+      </div>
+      <div class="step">
+        <div class="ill"><div class="drag"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="ic">
+  <defs>
+    <linearGradient id="gm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a3d"/><stop offset="1" stop-color="#e8336b"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="url(#gm)"/>
+  <circle cx="92" cy="92" r="30" fill="#00b7eb" opacity=".95"/>
+  <circle cx="164" cy="92" r="30" fill="#ec008c" opacity=".95"/>
+  <circle cx="128" cy="150" r="30" fill="#ffe500" opacity=".95"/>
+  <path d="M128 70 L170 150 L150 214 L106 214 L86 150 Z" fill="#141414"/>
+  <path d="M128 92 L128 160" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="128" cy="168" r="11" fill="#fff"/>
+</svg>
+<span class="arrow">→</span><div class="folder"><span>A</span></div></div></div>
+        <div class="num">2</div>
+        <h3 class="en-only">Drag to Applications</h3><h3 class="bn-only bn">Applications-এ টেনে দিন</h3>
+        <p class="en-only">In the window that opens, drag the app icon onto the <b>Applications</b> folder. Then open it from Launchpad.</p>
+        <p class="bn-only bn">যে উইন্ডো খুলবে, সেখানে অ্যাপের আইকনটা টেনে <b>Applications</b> ফোল্ডারে ছেড়ে দিন। তারপর Launchpad থেকে খুলুন।</p>
+      </div>
+      <div class="step">
+        <div class="ill"><div class="sys"><div style="font-weight:700;color:#e6e7ea;margin-bottom:6px">Privacy &amp; Security</div><div class="row"><span>“Vibrant Print Master Pro” was blocked to protect your Mac.</span><span class="oa">Open Anyway</span></div></div></div>
+        <div class="num">3</div>
+        <h3 class="en-only">Allow it once</h3><h3 class="bn-only bn">একবার অনুমতি দিন</h3>
+        <p class="en-only">If macOS says it can’t verify the app, click <b>Done</b>, open <b>System Settings → Privacy &amp; Security</b>, scroll down and click <b>Open Anyway</b>.</p>
+        <p class="bn-only bn">“Apple cannot verify” দেখালে <b>Done</b> চাপুন। এরপর <b>System Settings → Privacy &amp; Security</b> খুলে নিচে স্ক্রল করে <b>Open Anyway</b> ক্লিক করুন।</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="padding-top:20px">
+  <div class="wrap">
+    <h2 class="h2 en-only">Everything print needs. Nothing it doesn’t.</h2>
+    <h2 class="h2 bn-only bn">প্রিন্টে যা লাগে, সবই আছে।</h2>
+    <p class="sub en-only">Built around the problems that actually show up at the press.</p>
+    <p class="sub bn-only bn">প্রেসে গিয়ে যেসব সমস্যা হয়, সেগুলো মাথায় রেখে বানানো।</p>
+    <div class="feats">
+      <div class="feat"><div class="fi c1">C</div><h4 class="en-only">True CMYK only</h4><h4 class="bn-only bn">শুধুই আসল CMYK</h4><p class="en-only">Every colour is a C/M/Y/K value. K100 black stays pure K, and you’re warned above 300% total ink.</p><p class="bn-only bn">প্রতিটা কালার C/M/Y/K ভ্যালুতে। K100 কালো pure K-ই থাকে, ৩০০%-এর বেশি ink হলে সতর্ক করে।</p></div>
+      <div class="feat"><div class="fi c2">⇄</div><h4 class="en-only">Save as AI &amp; EPS</h4><h4 class="bn-only bn">AI ও EPS-এ সেভ</h4><p class="en-only">Files open in Adobe Illustrator with editable shapes, CMYK colours and embedded images — nothing missing.</p><p class="bn-only bn">Adobe Illustrator-এ খুললে shape, CMYK কালার আর ছবি সব এডিটেবল — কোনো ছবি missing হয় না।</p></div>
+      <div class="feat"><div class="fi c3 bn">অ</div><h4 class="en-only">Bangla, done right</h4><h4 class="bn-only bn">বাংলা একদম ঠিকঠাক</h4><p class="en-only">Conjuncts like ক্ষ, স্ব and ন্দ্র are shaped correctly on screen and in every export.</p><p class="bn-only bn">ক্ষ, স্ব, ন্দ্র-এর মতো যুক্তাক্ষর স্ক্রিনে আর এক্সপোর্টে — দুই জায়গাতেই সঠিক।</p></div>
+      <div class="feat"><div class="fi c4">✂</div><h4 class="en-only">Print-ready PDF</h4><h4 class="bn-only bn">প্রিন্ট-রেডি PDF</h4><p class="en-only">Bleed, crop marks, outlined text and your ICC profile as output intent — ready to send to the press.</p><p class="bn-only bn">Bleed, crop marks, outline করা টেক্সট আর ICC প্রোফাইল সহ — সরাসরি প্রেসে পাঠানোর মতো।</p></div>
+      <div class="feat"><div class="fi c5">✓</div><h4 class="en-only">Preflight check</h4><h4 class="bn-only bn">Preflight চেক</h4><p class="en-only">Catches low-resolution images, text outside the safe area, backgrounds that miss the bleed and hairline strokes.</p><p class="bn-only bn">কম রেজোলিউশনের ছবি, safe area-র বাইরে টেক্সট, bleed পর্যন্ত না যাওয়া ব্যাকগ্রাউন্ড — আগেই ধরে ফেলে।</p></div>
+      <div class="feat"><div class="fi c6">▦</div><h4 class="en-only">Familiar tools</h4><h4 class="bn-only bn">পরিচিত টুলস</h4><p class="en-only">Pen, shapes, type, pathfinder, clipping masks, layers, align and the shortcuts you already know (V, A, P, T, ⌘G, ⌘7).</p><p class="bn-only bn">Pen, shape, type, pathfinder, clipping mask, layers, align — আর চেনা শর্টকাট (V, A, P, T, ⌘G, ⌘7)।</p></div>
+    </div>
+    <div class="formats"><span class="fmt">Export <b>PDF</b></span><span class="fmt">Save <b>.AI</b></span><span class="fmt">Save <b>.EPS</b></span><span class="fmt"><b>PNG / JPG</b> 300 dpi</span><span class="fmt"><b>SVG</b></span><span class="fmt">Native <b>.vpm</b></span></div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <h2 class="h2">FAQ</h2>
+    <div class="faq" style="margin-top:36px">
+      <details>
+        <summary><span class="en-only">macOS says “Apple cannot verify” the app. Is that a problem?</span><span class="bn-only bn">“Apple cannot verify” দেখাচ্ছে — সমস্যা কি?</span></summary>
+        <ol class="en-only"><li>Click <b>Done</b> (don’t move it to the Bin).</li><li>Open <b>System Settings → Privacy &amp; Security</b>.</li><li>Scroll down, click <b>Open Anyway</b>, enter your Mac password, then <b>Open</b>.</li></ol>
+        <p class="en-only">This happens only the first time, because the app is distributed outside the App Store.</p>
+        <ol class="bn-only bn"><li><b>Done</b> চাপুন (Bin-এ ফেলবেন না)।</li><li><b>System Settings → Privacy &amp; Security</b> খুলুন।</li><li>নিচে স্ক্রল করে <b>Open Anyway</b> ক্লিক করুন, Mac-এর পাসওয়ার্ড দিন, তারপর <b>Open</b>।</li></ol>
+        <p class="bn-only bn">অ্যাপটা App Store-এর বাইরে থেকে আসায় এটা শুধু প্রথমবার হয়।</p>
+      </details>
+      <details>
+        <summary><span class="en-only">Which colour profile should I use?</span><span class="bn-only bn">কোন কালার প্রোফাইল ব্যবহার করব?</span></summary>
+        <p class="en-only">Open <b>Preferences (⌘,)</b> and pick the same CMYK profile your Illustrator uses (Edit → Color Settings). <b>Coated FOGRA39</b> is common for offset printing in Bangladesh — or ask your press.</p>
+        <p class="bn-only bn"><b>Preferences (⌘,)</b> খুলে Illustrator-এ যে CMYK প্রোফাইল আছে সেটাই দিন (Edit → Color Settings)। বাংলাদেশে অফসেট প্রিন্টে সাধারণত <b>Coated FOGRA39</b> — অথবা প্রেসে জিজ্ঞেস করুন।</p>
+      </details>
+      <details>
+        <summary><span class="en-only">Can I edit my .ai file again in this app?</span><span class="bn-only bn">.ai ফাইল কি এই অ্যাপে আবার এডিট করা যাবে?</span></summary>
+        <p class="en-only">No — always keep your working file as <code>.vpm</code>. The .ai and .eps exports are for Illustrator and the press; text in them is converted to outlines.</p>
+        <p class="bn-only bn">না — কাজের মূল ফাইল সবসময় <code>.vpm</code>-এ সেভ রাখুন। .ai আর .eps হলো Illustrator আর প্রেসের জন্য; এগুলোতে টেক্সট outline হয়ে যায়।</p>
+      </details>
+      <details>
+        <summary><span class="en-only">Does it work on Intel Macs or Windows?</span><span class="bn-only bn">Intel Mac বা Windows-এ চলবে?</span></summary>
+        <p class="en-only">This build is for Macs with Apple Silicon (M1, M2, M3, M4).</p>
+        <p class="bn-only bn">এই ভার্সনটা Apple Silicon (M1, M2, M3, M4) Mac-এর জন্য।</p>
+      </details>
+      <details>
+        <summary><span class="en-only">How do I update?</span><span class="bn-only bn">আপডেট কীভাবে করব?</span></summary>
+        <p class="en-only">Download again from this page — the button always gets the newest version — and drag it to Applications, choosing <b>Replace</b>.</p>
+        <p class="bn-only bn">এই পেজ থেকে আবার ডাউনলোড করুন — বাটনটা সবসময় সর্বশেষ ভার্সন দেয় — তারপর Applications-এ টেনে <b>Replace</b> দিন।</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div class="final">
+  <h2 class="h2 en-only">Ready to print?</h2><h2 class="h2 bn-only bn">প্রিন্টের জন্য তৈরি?</h2>
+  <p class="sub en-only" style="margin-bottom:30px">Free download for Mac with Apple Silicon.</p>
+  <p class="sub bn-only bn" style="margin-bottom:30px">Apple Silicon Mac-এর জন্য ফ্রি ডাউনলোড।</p>
+  <div class="cta"><a class="btn primary" href="https://github.com/ajtahamid/vibrant-print-master-pro/releases/latest/download/Vibrant-Print-Master-Pro.dmg"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a1 1 0 011 1v9.6l3.3-3.3a1 1 0 111.4 1.4l-5 5a1 1 0 01-1.4 0l-5-5a1 1 0 111.4-1.4L11 13.6V4a1 1 0 011-1zM5 19h14a1 1 0 110 2H5a1 1 0 110-2z"/></svg><span><span class="en-only">Download for Mac</span><span class="bn-only bn">Mac-এর জন্য ডাউনলোড</span><small>Free · .dmg · ~180 MB</small></span></a></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><b>Vibrant Print Master Pro</b> · v1.0 · Created by <span class="by">Tahamid</span></div>
+    <div><a href="https://github.com/ajtahamid/vibrant-print-master-pro" style="color:var(--dim)">GitHub</a> · <a href="https://github.com/ajtahamid/vibrant-print-master-pro/releases" style="color:var(--dim)">All versions</a></div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var btns = document.querySelectorAll('.lang button');
+    function set(l){ document.body.setAttribute('data-lang', l); document.documentElement.lang = l; btns.forEach(function(b){ b.classList.toggle('on', b.dataset.l===l); }); try{ localStorage.setItem('vpm-lang', l);}catch(e){} }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ set(b.dataset.l); }); });
+    try{ var s = localStorage.getItem('vpm-lang'); if(s) set(s); }catch(e){}
+  })();
+</script>
+</body>
+</html>
