@@ -204,7 +204,7 @@ export function aboutDialog() {
   return modal('', h('div', { class: 'about' },
     h('img', { src: '../assets/logo.svg' }),
     h('h1', {}, 'Vibrant Print Master Pro'),
-    h('div', { class: 'muted' }, 'Version 1.0 · CMYK vector design for print'),
+    h('div', { class: 'muted' }, 'Version 1.1 · CMYK vector design for print'),
     h('div', { class: 'by' }, 'Created by Tahamid'),
     h('div', { class: 'muted', style: { marginTop: '8px' } }, 'Colour management: LittleCMS · Text shaping: HarfBuzz · Canvas: Fabric.js · Booleans: Paper.js')),
   [{ label: 'Close', primary: true, result: true }]);

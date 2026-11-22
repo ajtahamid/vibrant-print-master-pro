@@ -9,6 +9,7 @@ import { initPanels, refreshPanels } from './panels.js';
 import { initRulers, drawRulers } from './rulers.js';
 import * as dlg from './dialogs.js';
 import { runPreflight } from './preflight.js';
+import { loadPdf, pageToObjects } from './pdfimport.js';
 
 document.body.classList.add('platform-' + window.vpm.platform);
 const isMac = window.vpm.platform === 'darwin';
@@ -409,6 +410,8 @@ export async function importPath(f, at) {
   const ext = f.split('.').pop().toLowerCase();
   if (ext === 'svg') return importSvgText(await window.vpm.invoke('fs:read-text', f), f.split(/[\\/]/).pop());
   if (ext === 'vpm') { if (await confirmDiscard()) return openFile(f); return; }
+  if (ext === 'ai' || ext === 'pdf') return placePdf(f);
+  if (ext === 'eps') { dlg.alert('EPS cannot be opened', 'EPS files can be saved but not opened. In Illustrator, save the file as .ai (keep “Create PDF Compatible File” ticked) or as PDF, then open that here.'); return; }
   if (!MIME[ext]) { toast('Unsupported file: ' + ext); return; }
   const bytes = await window.vpm.invoke('fs:read-bin', f);
   return placeImageData(bytesToDataUrl(bytes, MIME[ext]), f.split(/[\\/]/).pop(), at);
@@ -456,6 +459,63 @@ async function importSvgText(text, name) {
   canvas.setActiveObject(g);
   canvas.requestRenderAll();
   commit(true);
+}
+
+// ---------------- Illustrator (.ai) / PDF import ----------------
+function registerAsset(url) {
+  const id = 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  state.doc.assets[id] = url;
+  return id;
+}
+function importSummary(t) {
+  const parts = [`${t.paths} shapes`, `${t.text} text runs (as outlines)`, `${t.images} images`];
+  return parts.join(' · ') + (t.skipped ? ` · ${t.skipped} item(s) could not be converted` : '');
+}
+export async function openPdfDocument(path) {
+  toast('Opening ' + path.split(/[\\/]/).pop() + '…', 120000);
+  const bytes = new Uint8Array(await window.vpm.invoke('fs:read-bin', path));
+  let pdf;
+  try { pdf = await loadPdf(bytes); } catch (e) { toast(''); dlg.alert('Cannot open this file', String(e.message || e)); return false; }
+  const first = await pdf.getPage(1);
+  const vp = first.getViewport({ scale: 1 });
+  newDoc({ width: vp.width, height: vp.height, units: 'mm', name: path.split(/[\\/]/).pop().replace(/\.(ai|pdf)$/i, '') });
+  const total = { paths: 0, text: 0, images: 0, skipped: 0 };
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const res = await pageToObjects(pdf, i, registerAsset);
+    for (const k of Object.keys(total)) total[k] += res.stats[k];
+    if (i === 1) {
+      hist.lock = true;
+      res.objects.forEach((o) => canvas.add(o));
+      hist.lock = false;
+    } else {
+      state.doc.pages.push({ name: 'Page ' + i, objects: res.objects.map((o) => o.toObject(PROPS)) });
+    }
+  }
+  try { (pdf.loadingTask && pdf.loadingTask.destroy) ? pdf.loadingTask.destroy() : pdf.cleanup && pdf.cleanup(); } catch { /* ignore */ }
+  canvas.requestRenderAll();
+  resetHistory();
+  state.dirty = false;
+  emit('title'); emit('doc');
+  zoomFit();
+  refreshPanels();
+  toast('Opened — ' + importSummary(total), 6000);
+  return true;
+}
+async function placePdf(path) {
+  toast('Importing…', 120000);
+  const bytes = new Uint8Array(await window.vpm.invoke('fs:read-bin', path));
+  let pdf;
+  try { pdf = await loadPdf(bytes); } catch (e) { toast(''); dlg.alert('Cannot import this file', String(e.message || e)); return; }
+  const res = await pageToObjects(pdf, 1, registerAsset);
+  try { (pdf.loadingTask && pdf.loadingTask.destroy) ? pdf.loadingTask.destroy() : pdf.cleanup && pdf.cleanup(); } catch { /* ignore */ }
+  if (!res.objects.length) { toast('Nothing to import'); return; }
+  const g = res.objects.length > 1 ? new fabric.Group(res.objects) : res.objects[0];
+  g.name = g.name && res.objects.length === 1 ? g.name : path.split(/[\\/]/).pop();
+  canvas.add(g);
+  canvas.setActiveObject(g);
+  canvas.requestRenderAll();
+  commit(true);
+  toast('Imported — ' + importSummary(res.stats), 6000);
 }
 
 // drag & drop
@@ -798,14 +858,17 @@ export const commands = {
   'new': async () => { if (await confirmDiscard()) { const o = await dlg.newDocDialog(); if (o) newDoc(o); } },
   'open': async () => {
     if (!await confirmDiscard()) return;
-    const f = await window.vpm.invoke('dialog:open', { title: 'Open', properties: ['openFile'], filters: [{ name: 'Vibrant Print Master Pro', extensions: ['vpm'] }, { name: 'SVG', extensions: ['svg'] }] });
-    if (f) { if (/\.svg$/i.test(f[0])) { newDoc({ width: toPt(210, 'mm'), height: toPt(297, 'mm'), name: f[0].split(/[\\/]/).pop().replace(/\.svg$/i, '') }); await importPath(f[0]); } else await openFile(f[0]); }
+    const f = await window.vpm.invoke('dialog:open', { title: 'Open', properties: ['openFile'], filters: [{ name: 'All supported', extensions: ['vpm', 'ai', 'pdf', 'svg'] }, { name: 'Vibrant Print Master Pro', extensions: ['vpm'] }, { name: 'Adobe Illustrator', extensions: ['ai'] }, { name: 'PDF', extensions: ['pdf'] }, { name: 'SVG', extensions: ['svg'] }] });
+    if (!f) return;
+    if (/\.(ai|pdf)$/i.test(f[0])) await openPdfDocument(f[0]);
+    else if (/\.svg$/i.test(f[0])) { newDoc({ width: toPt(210, 'mm'), height: toPt(297, 'mm'), name: f[0].split(/[\\/]/).pop().replace(/\.svg$/i, '') }); await importPath(f[0]); }
+    else await openFile(f[0]);
   },
   'save': () => save(false),
   'save-as': () => save(true),
   'place': placeImage,
   'import-svg': async () => {
-    const f = await window.vpm.invoke('dialog:open', { title: 'Import SVG', properties: ['openFile'], filters: [{ name: 'SVG', extensions: ['svg'] }] });
+    const f = await window.vpm.invoke('dialog:open', { title: 'Import SVG / AI / PDF', properties: ['openFile'], filters: [{ name: 'SVG, AI, PDF', extensions: ['svg', 'ai', 'pdf'] }] });
     if (f) importPath(f[0]);
   },
   'export-pdf': () => exportPrint('pdf'),
@@ -942,7 +1005,7 @@ async function boot() {
     const o = await dlg.newDocDialog(true);
     if (o) newDoc(o);
   }
-  Object.assign(window.__vpm, { buildDisplayList, run, commands, newDoc, placeImageData, importSvgText, outlineObject, enliven, applyPaint, convertToPath, serialize, openFile, setZoom, zoomFit, undo, redo, commit, selectObjects, runPreflight });
+  Object.assign(window.__vpm, { openPdfDocument, placePdf, buildDisplayList, run, commands, newDoc, placeImageData, importSvgText, outlineObject, enliven, applyPaint, convertToPath, serialize, openFile, setZoom, zoomFit, undo, redo, commit, selectObjects, runPreflight });
   window.__vpmReady = true;
 }
 boot();

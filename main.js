@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath, pathToFileURL } from 'url';
 import { initColor, listCmykProfiles, setProfile, profileInfo, cmykToRgb, rgbToCmyk } from './core/color.js';
-import { scanFonts, shapeLine, bengaliFallback, coversBengali } from './core/fonts.js';
+import { scanFonts, shapeLine, bengaliFallback, coversBengali, pdfGlyphs } from './core/fonts.js';
 import { resolveDisplayList, writePdf, writeEps, writeFileSafe } from './core/export.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -80,13 +80,13 @@ function buildMenu() {
       submenu: [
         { label: 'New…', accelerator: 'CmdOrCtrl+N', click: send('new') },
         { label: 'New Window', accelerator: 'CmdOrCtrl+Alt+N', click: () => createWindow() },
-        { label: 'Open…', accelerator: 'CmdOrCtrl+O', click: send('open') },
+        { label: 'Open…  (.vpm, .ai, .pdf, .svg)', accelerator: 'CmdOrCtrl+O', click: send('open') },
         { type: 'separator' },
         { label: 'Save', accelerator: 'CmdOrCtrl+S', click: send('save') },
         { label: 'Save As…', accelerator: 'CmdOrCtrl+Shift+S', click: send('save-as') },
         { type: 'separator' },
         { label: 'Place Image…', accelerator: 'CmdOrCtrl+Shift+P', click: send('place') },
-        { label: 'Import SVG…', click: send('import-svg') },
+        { label: 'Import SVG / AI / PDF…', click: send('import-svg') },
         { type: 'separator' },
         { label: 'Export Print PDF…', accelerator: 'CmdOrCtrl+Alt+P', click: send('export-pdf') },
         { label: 'Save as Illustrator (.ai)…', accelerator: 'CmdOrCtrl+Alt+A', click: send('export-ai') },
@@ -195,6 +195,7 @@ function registerIpc() {
     id: f.id, family: f.family, style: f.style, postscript: f.postscript, fullName: f.fullName, weight: f.weight, italic: f.italic,
   })));
   ipcMain.handle('fonts:bn', (e, id) => ({ fallback: bengaliFallback(), covers: id ? coversBengali(id) : null }));
+  ipcMain.handle('fonts:pdf-glyphs', (e, req) => pdfGlyphs(req));
   ipcMain.handle('fonts:shape', (e, { fontId, text, size, tracking }) => shapeLine(fontId, text, size, tracking));
 
   ipcMain.handle('settings:get', () => settings);

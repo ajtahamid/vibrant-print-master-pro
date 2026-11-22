@@ -34,7 +34,7 @@ jobs:
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: Vibrant Print Master Pro v1.0.${{ github.run_number }}
+          tag_name: v1.1.${{ github.run_number }}
+          name: Vibrant Print Master Pro v1.1.${{ github.run_number }}
           body: "Download Vibrant-Print-Master-Pro.dmg, open it and drag the app to Applications. First launch: System Settings → Privacy & Security → Open Anyway. Created by Tahamid."
           files: Vibrant-Print-Master-Pro.dmg

@@ -1,7 +1,7 @@
 {
   "name": "vibrant-print-master-pro",
   "productName": "Vibrant Print Master Pro",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Print-focused CMYK vector design app. Created by Tahamid.",
   "author": "Tahamid",
   "main": "main.js",
@@ -14,7 +14,8 @@
     "fontkit": "^2.0.4",
     "harfbuzzjs": "^1.6.4",
     "lcms-wasm": "^1.0.5",
-    "paper": "^0.12.18"
+    "paper": "^0.12.18",
+    "pdfjs-dist": "^6.5.438"
   },
   "devDependencies": {
     "@electron/packager": "*",

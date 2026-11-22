@@ -4,7 +4,7 @@ const paths = await packager({
   platform: 'darwin', arch: 'arm64',
   name: 'Vibrant Print Master Pro', executableName: 'Vibrant Print Master Pro',
   appBundleId: 'com.tahamid.vibrantprintmasterpro', appCategoryType: 'public.app-category.graphics-design',
-  appVersion: '1.0.0', buildVersion: '1.0.0', appCopyright: 'Created by Tahamid',
+  appVersion: '1.1.0', buildVersion: '1.1.0', appCopyright: 'Created by Tahamid',
   icon: 'build/icon.icns', asar: false, prune: true,
   ignore: [/^\/scratch/, /^\/build/, /^\/dist/, /\.map$/, /^\/node_modules\/electron($|\/)/, /^\/node_modules\/@electron/],
   extendInfo: {

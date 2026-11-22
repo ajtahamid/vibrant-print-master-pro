@@ -205,3 +205,26 @@ export function shapeLine(fontId, text, size, tracking /* em/1000 */) {
   }
   return { width: x, subpaths: out };
 }
+
+// ---------- glyph outlines from fonts embedded in PDF / AI files (converted by pdf.js) ----------
+const pdfFontCache = new Map();
+export function pdfGlyphs({ key, data, chars }) {
+  let f = pdfFontCache.get(key);
+  if (!f) {
+    try { f = fontkit.create(Buffer.from(data)); } catch { f = null; }
+    if (f && f.fonts) f = f.fonts[0];
+    pdfFontCache.set(key, f);
+    if (pdfFontCache.size > 200) pdfFontCache.delete(pdfFontCache.keys().next().value);
+  }
+  if (!f) return null;
+  const map = {};
+  const MAP = { moveTo: 'M', lineTo: 'L', quadraticCurveTo: 'Q', bezierCurveTo: 'C', closePath: 'Z' };
+  for (const ch of chars) {
+    try {
+      const g = f.glyphForCodePoint(ch.codePointAt(0));
+      if (!g || !g.id) { map[ch] = []; continue; }
+      map[ch] = g.path.commands.map((c) => [MAP[c.command] || 'Z', c.args]);
+    } catch { map[ch] = []; }
+  }
+  return { upem: f.unitsPerEm || 1000, map };
+}
